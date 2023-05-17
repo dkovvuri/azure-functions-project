@@ -15,6 +15,8 @@ Actions:
                 Identifier: aws/github-actions-runner@v1.0.0
                 Configuration:
                   Steps:
+                    - run: env
+                    - run: curl -L https://aka.ms/InstallAzureCli | bash
                     - name: Login To Azure
                       id: login-to-azure
                       uses: azure/login@v1
