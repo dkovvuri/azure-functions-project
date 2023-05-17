@@ -1,4 +1,8 @@
 Name: HelloWorldFunction_MainWorkflow
+Compute:
+  Type: EC2
+  Fleet: Linux.x86-64.Large
+  SharedInstance: true
 SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
@@ -9,22 +13,24 @@ Triggers:
 
 # Required - Define action configurations.
 Actions:
-    DeployToAzure:
-        Actions:
-            Login: 
-                Identifier: aws/github-actions-runner@v1.0.0
-                Configuration:
-                  Steps:
-                      - name: Install Azure cli
-                        run: |
-                          sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-                          curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
-                          AZ_REPO=$(lsb_release -cs)
-                          echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-                          sudo apt-get update
-                          sudo apt-get install azure-cli
-                      - name: Login To Azure
-                        id: login-to-azure
-                        uses: azure/login@v1
-                        with:
-                          creds: ${Secrets.AZURE_CREDENTIALS}
+  DeployToAzure:
+    Actions:
+      Login:
+        Identifier: aws/github-actions-runner@v1.0.0
+        Configuration:
+          Steps:
+            - name: Install Azure CLI
+              run: |
+                rpm --import https://packages.microsoft.com/keys/microsoft.asc
+                sh -c 'echo -e "[azure-cli]
+                name=Azure CLI
+                baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+                enabled=1
+                gpgcheck=1
+                gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+                yum install azure-cli -y
+            - name: Login To Azure
+              id: login-to-azure
+              uses: azure/login@v1
+              with:
+                creds: ${Secrets.AZURE_CREDENTIALS}
