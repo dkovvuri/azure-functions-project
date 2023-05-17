@@ -1,0 +1,22 @@
+Name: Workflow_2c2f
+SchemaVersion: "1.0"
+
+# Optional - Set automatic triggers.
+Triggers:
+  - Type: Push
+    Branches:
+      - main
+
+# Required - Define action configurations.
+Actions:
+    DeployToAzure:
+        Actions:
+            Login: 
+                Identifier: aws/github-actions-runner@v1.0.0
+                Configuration:
+                  Steps:
+                    - name: Login To Azure
+                      id: login-to-azure
+                      uses: azure/login@v1
+                      with:
+                        creds: ${ Secrets.AZURE_CREDENTIALS }
