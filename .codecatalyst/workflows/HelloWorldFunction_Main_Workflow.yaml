@@ -34,6 +34,10 @@ Actions:
               uses: azure/login@v1
               with:
                 creds: ${Secrets.AZURE_CREDENTIALS}
+      Deploy:
+        Identifier: aws/github-actions-runner@v1.0.0
+        Configuration:
+          Steps:
             - name: Deploy to Azure Functions
               uses: serverless/github-action@v3.2
               with:
