@@ -1,4 +1,4 @@
-Name: Workflow_2c2f
+Name: HelloWorldFunction_MainWorkflow
 SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
@@ -19,4 +19,4 @@ Actions:
                       id: login-to-azure
                       uses: azure/login@v1
                       with:
-                        creds: ${ Secrets.AZURE_CREDENTIALS }
+                        creds: ${Secrets.AZURE_CREDENTIALS}
