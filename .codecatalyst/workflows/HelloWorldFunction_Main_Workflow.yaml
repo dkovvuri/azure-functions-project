@@ -46,5 +46,5 @@ Actions:
             - name: Deploy to Azure Functions
               uses: serverless/github-action@v3.2
               with:
-                args: -c "pwd && ls -la && serverless plugin install --name serverless-azure-functions && serverless deploy"
+                args: -c "cd ./azure-node-simple-http-endpoint/ && serverless plugin install --name serverless-azure-functions && serverless deploy"
                 entrypoint: /bin/sh
