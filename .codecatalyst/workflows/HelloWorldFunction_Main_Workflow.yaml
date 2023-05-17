@@ -34,3 +34,8 @@ Actions:
               uses: azure/login@v1
               with:
                 creds: ${Secrets.AZURE_CREDENTIALS}
+            - name: Deploy to Azure Functions
+              uses: serverless/github-action@v3.2
+              with:
+                args: -c "serverless plugin install --name serverless-azure-functions && serverless deploy"
+                entrypoint: /bin/sh
