@@ -35,6 +35,8 @@ Actions:
               with:
                 creds: ${Secrets.AZURE_CREDENTIALS}
       Deploy:
+        DependsOn: 
+            - Login
         Identifier: aws/github-actions-runner@v1.0.0
         Configuration:
           Steps:
