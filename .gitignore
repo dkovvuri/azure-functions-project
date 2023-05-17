@@ -92,12 +92,3 @@ bin
 obj
 appsettings.json
 local.settings.json
-.python_packages/
-
-# Python
-__pycache__/
-
-# Virtual Environments
-env/
-.env/
-.venv/
