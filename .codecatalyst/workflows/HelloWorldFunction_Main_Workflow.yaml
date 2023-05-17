@@ -37,6 +37,9 @@ Actions:
       Deploy:
         DependsOn: 
             - Login
+        Inputs:
+         Sources:
+          - WorkflowSource
         Identifier: aws/github-actions-runner@v1.0.0
         Configuration:
           Steps:
