@@ -32,6 +32,12 @@ Actions:
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
                 AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}    
-            - name: Retrieve Application Endpoint
-              run: |
-                sls info
+            - name: Retrieve Deployment Details
+              uses: serverless/github-action@v3.2
+              with:
+                args: "sls info"
+              env: 
+                AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
+                AZURE_TENANT_ID: ${Secrets.TENANT_ID}
+                AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
+                AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}  
