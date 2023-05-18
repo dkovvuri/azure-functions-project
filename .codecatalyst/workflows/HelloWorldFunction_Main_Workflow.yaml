@@ -44,8 +44,8 @@ Actions:
               with:
                 args: | 
                     -c "serverless plugin install --name serverless-azure-functions && \
-                        serverless invoke -f hello -d '{"name": "CodeCatalyst"}' && \
-                        serverless invoke -f goodbye -d '{"name": "CodeCatalyst"}'"
+                        serverless invoke -f hello -d '{\"name\": \"CodeCatalyst\"}' && \
+                        serverless invoke -f goodbye -d '{\"name\": \"CodeCatalyst\"}'"
                 entrypoint: /bin/sh
               env:
                 AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
