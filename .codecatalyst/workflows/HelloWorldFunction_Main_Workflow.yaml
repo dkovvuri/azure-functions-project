@@ -14,9 +14,8 @@ Triggers:
 # Required - Define action configurations.
 Actions:
   DeployAndTest:
+    Actions:
       Deploy:
-        DependsOn: 
-            - Login
         Inputs:
          Sources:
           - WorkflowSource
