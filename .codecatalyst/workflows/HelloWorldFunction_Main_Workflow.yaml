@@ -32,12 +32,22 @@ Actions:
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
                 AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}    
-            - name: Retrieve Deployment Details
-              uses: serverless/github-action@v3.2
+            - name: Install Azure CLI
+              run: |
+                rpm --import https://packages.microsoft.com/keys/microsoft.asc
+                sh -c 'echo -e "[azure-cli]
+                name=Azure CLI
+                baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+                enabled=1
+                gpgcheck=1
+                gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+                yum install azure-cli -y
+            - name: Login To Azure
+              id: login-to-azure
+              uses: azure/login@v1
               with:
-                args: info --format json
-              env: 
-                AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
-                AZURE_TENANT_ID: ${Secrets.TENANT_ID}
-                AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
-                AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}  
+                creds: '{"clientId":"${Secrets.CLIENT_ID}","clientSecret":"${Secrets.CLIENT_SECRET}","subscriptionId":"${Secrets.SUBSCRIPTION_ID}","tenantId":"${Secrets.TENANT_ID}"}'
+            - name: Get Application Endpoint
+              run: |
+                printf '%q\n' "${PWD##*/}"
+                az functionapp list --query "[?contains(name,'sls')].defaultHostName" --output tsv
