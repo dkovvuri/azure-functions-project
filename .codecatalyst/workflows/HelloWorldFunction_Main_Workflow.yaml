@@ -35,7 +35,7 @@ Actions:
             - name: Retrieve Deployment Details
               uses: serverless/github-action@v3.2
               with:
-                args: info
+                args: info --format json
               env: 
                 AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
