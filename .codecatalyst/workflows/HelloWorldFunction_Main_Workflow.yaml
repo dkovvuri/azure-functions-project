@@ -62,7 +62,13 @@ Actions:
         Configuration:
           Steps:
             - Run: |
-                if curl ${Deploy.get_application_endpoint_url_ENDPOINT_URL}/api/goodbye?name=CodeCatalyst; then
+                if curl -s ${Deploy.get_application_endpoint_url_ENDPOINT_URL}/api/hello?name=CodeCatalyst; then
+                    printf "\n Application Endpoint is reachable"
+                else
+                    printf "\n Application Endpoint is not reachable"
+                fi
+            - Run: |
+                if curl -s ${Deploy.get_application_endpoint_url_ENDPOINT_URL}/api/goodbye?name=CodeCatalyst; then
                     echo "Application Endpoint is reachable"
                 else
                     echo "Application Endpoint is not reachable"
