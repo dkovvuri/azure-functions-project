@@ -33,7 +33,7 @@ Actions:
               id: login-to-azure
               uses: azure/login@v1
               with:
-                creds: ${Secrets.AZURE_CREDENTIALS}
+                creds: '{"clientId":"${Secrets.CLIENT_ID}","clientSecret":"${Secrets.CLIENT_SECRET}","subscriptionId":"${Secrets.SUBSCRIPTION_ID}","tenantId":"${Secrets.TENANT_ID}"}'
       Deploy:
         DependsOn: 
             - Login
@@ -48,3 +48,8 @@ Actions:
               with:
                 args: -c "serverless plugin install --name serverless-azure-functions && serverless deploy"
                 entrypoint: /bin/sh
+              env: 
+                AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
+                AZURE_TENANT_ID: ${Secrets.TENANT_ID}
+                AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
+                AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}    
