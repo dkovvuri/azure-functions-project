@@ -42,9 +42,8 @@ Actions:
             - name: Test Function
               uses: serverless/github-action@v3.2
               with:
-                args: |
-                    -c "serverless plugin install \ 
-                        --name serverless-azure-functions && \
+                args: | 
+                    -c "serverless plugin install --name serverless-azure-functions && \
                         serverless invoke -f hello -d '{"name": "CodeCatalyst"}' && \
                         serverless invoke -f goodbye -d '{"name": "CodeCatalyst"}'"
                 entrypoint: /bin/sh
