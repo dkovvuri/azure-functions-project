@@ -20,6 +20,9 @@ Actions:
          Sources:
           - WorkflowSource
         Identifier: aws/github-actions-runner@v1.0.0
+        Outputs:
+          Variables:
+            - 'get_application_endpoint_url_ENDPOINT_URL'
         Configuration:
           Steps:
             - name: Deploy to Azure Functions
@@ -33,6 +36,7 @@ Actions:
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
                 AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}    
             - name: Install Azure CLI
+              id: install_azure_cli
               run: |
                 rpm --import https://packages.microsoft.com/keys/microsoft.asc
                 sh -c 'echo -e "[azure-cli]
@@ -43,11 +47,23 @@ Actions:
                 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
                 yum install azure-cli -y
             - name: Login To Azure
-              id: login-to-azure
+              id: login_to_azure
               uses: azure/login@v1
               with:
                 creds: '{"clientId":"${Secrets.CLIENT_ID}","clientSecret":"${Secrets.CLIENT_SECRET}","subscriptionId":"${Secrets.SUBSCRIPTION_ID}","tenantId":"${Secrets.TENANT_ID}"}'
             - name: Get Application Endpoint
+              id: get_application_endpoint_url
               run: |
-                printf '%q\n' "${PWD##*/}"
-                az functionapp list --query "[?contains(name,'sls')].defaultHostName" --output tsv
+                ENDPOINT_URL=$(az functionapp list --query "[?contains(name,'sls')].defaultHostName" --output tsv)
+                echo "ENDPOINT_URL=$ENDPOINT_URL" >> $GITHUB_OUTPUT
+      Test:
+        Identifier: aws/build@v1
+        Configuration: 
+          Steps:
+            - Run: |
+                if curl ${Deploy.get_application_endpoint_url_ENDPOINT_URL}/api/goodbye?name=CodeCatalyst; then
+                    echo "Application Endpoint is reachable"
+                else
+                    echo "Application Endpoint is not reachable"
+                fi
+                
