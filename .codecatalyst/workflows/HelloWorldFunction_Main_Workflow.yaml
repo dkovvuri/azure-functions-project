@@ -13,8 +13,6 @@ Triggers:
 
 # Required - Define action configurations.
 Actions:
-  DeployAndTest:
-    Actions:
       Deploy:
         Inputs:
           Sources:
