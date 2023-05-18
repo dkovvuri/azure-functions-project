@@ -17,8 +17,8 @@ Actions:
     Actions:
       Deploy:
         Inputs:
-         Sources:
-          - WorkflowSource
+          Sources:
+            - WorkflowSource
         Identifier: aws/github-actions-runner@v1.0.0
         Outputs:
           Variables:
@@ -28,13 +28,14 @@ Actions:
             - name: Deploy to Azure Functions
               uses: serverless/github-action@v3.2
               with:
-                args: -c "serverless plugin install --name serverless-azure-functions && serverless deploy"
+                args: -c "serverless plugin install --name serverless-azure-functions &&
+                  serverless deploy"
                 entrypoint: /bin/sh
-              env: 
+              env:
                 AZURE_SUBSCRIPTION_ID: ${Secrets.SUBSCRIPTION_ID}
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
-                AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}    
+                AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}
             - name: Install Azure CLI
               id: install_azure_cli
               run: |
@@ -57,8 +58,8 @@ Actions:
                 ENDPOINT_URL=$(az functionapp list --query "[?contains(name,'sls')].defaultHostName" --output tsv)
                 echo "ENDPOINT_URL=$ENDPOINT_URL" >> $GITHUB_OUTPUT
       Test:
-        Identifier: aws/build@v1
-        Configuration: 
+        Identifier: aws/managed-test@v1.0.0
+        Configuration:
           Steps:
             - Run: |
                 if curl ${Deploy.get_application_endpoint_url_ENDPOINT_URL}/api/goodbye?name=CodeCatalyst; then
@@ -66,4 +67,3 @@ Actions:
                 else
                     echo "Application Endpoint is not reachable"
                 fi
-                
