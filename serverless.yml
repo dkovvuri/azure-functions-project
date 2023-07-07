@@ -17,6 +17,10 @@ service: hello-function
 # Check out our docs for more details
 frameworkVersion: '3'
 
+	
+disabledDeprecations:
+  - '*' 
+  
 provider:
   name: azure
   region: West US 2
