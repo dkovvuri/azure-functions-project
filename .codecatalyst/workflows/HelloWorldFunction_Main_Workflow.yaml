@@ -31,6 +31,7 @@ Actions:
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
                 AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}
+                SLS_DEPRECATION_DISABLE: '*'
       Test:
         DependsOn:
             - Deploy
@@ -50,3 +51,4 @@ Actions:
                 AZURE_TENANT_ID: ${Secrets.TENANT_ID}
                 AZURE_CLIENT_ID: ${Secrets.CLIENT_ID}
                 AZURE_CLIENT_SECRET: ${Secrets.CLIENT_SECRET}
+                SLS_DEPRECATION_DISABLE: '*'
